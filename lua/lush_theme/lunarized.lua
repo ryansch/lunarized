@@ -70,7 +70,7 @@ local clrs = {
   violet = "#6c71c4",
   blue = "#268bd2",
   cyan = "#2aa198",
-  green = "#719e07", -- original is hsl("#859900")
+  green = "#719e07", -- original is "#859900"
 }
 
 local cfg = {
