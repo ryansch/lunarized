@@ -55,22 +55,22 @@ local gui_combine = function(gui)
 end
 
 local clrs = {
-  base03 = hsl("#002b36"),
-  base02 = hsl("#073642"),
-  base01 = hsl("#586e75"),
-  base00 = hsl("#657b83"),
-  base0 = hsl("#839496"),
-  base1 = hsl("#93a1a1"),
-  base2 = hsl("#eee8d5"),
-  base3 = hsl("#fdf6e3"),
-  yellow = hsl("#b58900"),
-  orange = hsl("#cb4b16"),
-  red = hsl("#dc322f"),
-  magenta = hsl("#d33682"),
-  violet = hsl("#6c71c4"),
-  blue = hsl("#268bd2"),
-  cyan = hsl("#2aa198"),
-  green = hsl("#719e07"), -- original is hsl("#859900")
+  base03 = "#002b36",
+  base02 = "#073642",
+  base01 = "#586e75",
+  base00 = "#657b83",
+  base0 = "#839496",
+  base1 = "#93a1a1",
+  base2 = "#eee8d5",
+  base3 = "#fdf6e3",
+  yellow = "#b58900",
+  orange = "#cb4b16",
+  red = "#dc322f",
+  magenta = "#d33682",
+  violet = "#6c71c4",
+  blue = "#268bd2",
+  cyan = "#2aa198",
+  green = "#719e07", -- original is hsl("#859900")
 }
 
 local cfg = {
