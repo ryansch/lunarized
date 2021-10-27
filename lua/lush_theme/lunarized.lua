@@ -55,22 +55,22 @@ local gui_combine = function(gui)
 end
 
 local clrs = {
-  base03 = hsl("#002b36"),
-  base02 = hsl("#073642"),
-  base01 = hsl("#586e75"),
-  base00 = hsl("#657b83"),
-  base0 = hsl("#839496"),
-  base1 = hsl("#93a1a1"),
-  base2 = hsl("#eee8d5"),
-  base3 = hsl("#fdf6e3"),
-  yellow = hsl("#b58900"),
-  orange = hsl("#cb4b16"),
-  red = hsl("#dc322f"),
-  magenta = hsl("#d33682"),
-  violet = hsl("#6c71c4"),
-  blue = hsl("#268bd2"),
-  cyan = hsl("#2aa198"),
-  green = hsl("#719e07"), -- original is hsl("#859900")
+  base03 = "#002b36",
+  base02 = "#073642",
+  base01 = "#586e75",
+  base00 = "#657b83",
+  base0 = "#839496",
+  base1 = "#93a1a1",
+  base2 = "#eee8d5",
+  base3 = "#fdf6e3",
+  yellow = "#b58900",
+  orange = "#cb4b16",
+  red = "#dc322f",
+  magenta = "#d33682",
+  violet = "#6c71c4",
+  blue = "#268bd2",
+  cyan = "#2aa198",
+  green = "#719e07", -- original is "#859900"
 }
 
 local cfg = {
@@ -134,7 +134,7 @@ local theme = lush(function()
     -- TermCursor   { }, -- cursor in a focused terminal
     -- TermCursorNC { }, -- cursor in an unfocused terminal
     ErrorMsg     { fg = clrs.red, gui = s.r }, -- error messages on the command line
-    VertSplit    { fg = clrs.base00 }, -- the column separating vertically split windows
+    -- VertSplit    { fg = clrs.base00 }, -- the column separating vertically split windows
     Folded       { fg = clrs.base0, bg = clrs.base02, sp = clrs.base03, gui = s.b }, -- line used for closed folds
     FoldColumn   { fg = clrs.base0, bg = clrs.base02 }, -- 'foldcolumn'
     SignColumn   { fg = clrs.base0 }, -- column where |signs| are displayed
@@ -142,7 +142,8 @@ local theme = lush(function()
     -- Substitute   { }, -- |:substitute| replacement text highlighting
     LineNr       { fg = clrs.base01, bg = clrs.base02 }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     CursorLineNr { CursorLine }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-    MatchParen   { fg = clrs.red, bg = clrs.base01, gui = s.b }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+    -- Overridden below in YADR section
+    -- MatchParen   { fg = clrs.red, bg = clrs.base01, gui = s.b }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     ModeMsg      { fg = clrs.blue }, -- 'showmode' message (e.g., "-- INSERT -- ")
     -- MsgArea      { }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
@@ -182,30 +183,30 @@ local theme = lush(function()
     -- Uncomment and edit if you want more specific syntax highlighting.
 
     Constant       { fg = clrs.cyan }, -- (preferred) any constant
-    -- String         { }, --   a string constant: "this is a string"
-    -- Character      { }, --  a character constant: 'c', '\n'
-    -- Number         { }, --   a number constant: 234, 0xff
-    -- Boolean        { }, --  a boolean constant: TRUE, false
-    -- Float          { }, --    a floating point constant: 2.3e10
+    String         { Constant }, --   a string constant: "this is a string"
+    Character      { Constant }, --  a character constant: 'c', '\n'
+    Number         { Constant }, --   a number constant: 234, 0xff
+    Boolean        { Constant }, --  a boolean constant: TRUE, false
+    Float          { Constant }, --    a floating point constant: 2.3e10
 
     Identifier     { fg = clrs.blue }, -- (preferred) any variable name
-    -- Function       { }, -- function name (also: methods for classes)
+    Function       { Identifier }, -- function name (also: methods for classes)
 
     Statement      { fg = clrs.green }, -- (preferred) any statement
-    -- Conditional    { }, --  if, then, else, endif, switch, etc.
-    -- Repeat         { }, --   for, do, while, etc.
-    -- Label          { }, --    case, default, etc.
-    -- Operator       { }, -- "sizeof", "+", "*", etc.
-    -- Keyword        { }, --  any other keyword
-    -- Exception      { }, --  try, catch, throw
+    Conditional    { Statement }, --  if, then, else, endif, switch, etc.
+    Repeat         { Statement }, --   for, do, while, etc.
+    Label          { Statement }, --    case, default, etc.
+    Operator       { Statement }, -- "sizeof", "+", "*", etc.
+    Keyword        { Statement }, --  any other keyword
+    Exception      { Statement }, --  try, catch, throw
 
     PreProc        { fg = clrs.orange }, -- (preferred) generic Preprocessor
-    -- Include        { }, --  preprocessor #include
-    -- Define         { }, --   preprocessor #define
-    -- Macro          { }, --    same as Define
-    -- PreCondit      { }, --  preprocessor #if, #else, #endif, etc.
+    Include        { PreProc }, --  preprocessor #include
+    Define         { PreProc }, --   preprocessor #define
+    Macro          { PreProc }, --    same as Define
+    PreCondit      { PreProc }, --  preprocessor #if, #else, #endif, etc.
 
-    Type           { fg = clrs.yellow }, -- (preferred) int, long, char, etc.
+    Type           { fg = clrs.yellow, gui = s.b }, -- (preferred) int, long, char, etc.
     -- StorageClass   { }, -- static, register, volatile, etc.
     -- Structure      { }, --  struct, union, enum, etc.
     -- Typedef        { }, --  A typedef
@@ -320,9 +321,80 @@ local theme = lush(function()
     -- TSTitle              { };    -- Text that is part of a title.
     -- TSLiteral            { };    -- Literal text.
     -- TSURI                { };    -- Any URI like a link or email.
+  
+    
+    -- Ported overrides from YADR
+    txtBold              { Identifier };
+    zshVariableDef       { Identifier };
+    zshFunction          { Function };
+    rubyControl          { Statement };
+    rspecGroupMethods    { rubyControl };
+    rspecMocks           { Identifier };
+    rspecKeywords        { Identifier };
+    rubyLocalVariableOrMethod { Normal };
+    rubyStringDelimiter { Constant };
+    rubyString { Constant };
+    rubyAccess { Todo };
+    rubySymbol { Identifier };
+    rubyPseudoVariable { Type };
+    rubyRailsARAssociationMethod { Title };
+    rubyRailsARValidationMethod { Title };
+    rubyRailsMethod { Title };
+    rubyDoBlock { Normal };
+    MatchParen { DiffText };
+  
+    CTagsModule { Type };
+    CTagsClass { Type };
+    CTagsMethod { Identifier };
+    CTagsSingleton { Identifier };
 
+    javascriptFuncName { Type };
+    -- jsFuncCall { jsFuncName };
+    javascriptFunction { Statement };
+    javascriptThis { Statement };
+    javascriptParens { Normal };
+    -- jOperators { javascriptStringD };
+    jId { Title };
+    jClass { Title };
+
+    -- " Javascript language support
+    javascriptJGlobalMethod { Statement };
+
+    -- " Make the braces and other noisy things slightly less noisy
+    -- hi! jsParens guifg=#005F78 cterm=NONE term=NONE ctermfg=NONE ctermbg=NONE
+    jsParens { fg = "#005F78" };
+    jsFuncParens { jsParens };
+    jsFuncBraces { jsParens };
+    jsBraces { jsParens };
+    jsNoise { jsParens };
+    
+    NERDTreeFile { Constant };
+    NERDTreeDir { Identifier };
+
+    sassMixinName { Function };
+    sassDefinition { Function };
+    sassProperty { Type };
+    htmlTagName { Type };
+
+    -- PreProc { gui = s.b };
+
+  -- Solarized separators are a little garish.
+  -- This moves separators, comments, and normal
+  -- text into the same color family as the background.
+  -- Using the http://drpeterjones.com/colorcalc/,
+  -- they are now just differently saturated and
+  -- valued riffs on the background color, making
+  -- everything play together just a little more nicely.
+  --
+  VertSplit { fg = "#003745" };
+  LineNR { fg = "#004C60", gui = s.b, bg = "#002B36" };
+  htmlLink { Include };
+  -- CursorLine { gui = "NONE" };
+  -- Type gui=bold
+  EasyMotionTarget { fg = "#4CE660", gui = s.b };
   }
 end)
+
 
 -- return our parsed theme for extension or use else where.
 return theme
