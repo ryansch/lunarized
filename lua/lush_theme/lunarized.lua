@@ -389,8 +389,6 @@ local theme = lush(function()
   VertSplit { fg = "#003745" };
   LineNR { fg = "#004C60", gui = s.b, bg = "#002B36" };
   htmlLink { Include };
-  -- CursorLine { gui = "NONE" };
-  -- Type gui=bold
   EasyMotionTarget { fg = "#4CE660", gui = s.b };
   }
 end)
