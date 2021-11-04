@@ -150,8 +150,8 @@ local theme = lush(function()
     MoreMsg      { fg = clrs.blue }, -- |more-prompt|
     NonText      { fg = clrs.base00, bg = s.none, gui = s.b }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     Normal       { fg = clrs.base0, bg = p.back, gui = s.none }, -- normal text
-    -- NormalFloat  { }, -- Normal text in floating windows.
-    -- NormalNC     { }, -- normal text in non-current windows
+    NormalFloat  { Normal }, -- Normal text in floating windows.
+    NormalNC     { Normal }, -- normal text in non-current windows
     Pmenu        { fg = clrs.base0, bg = clrs.base02, gui = p.revbb }, -- Popup menu: normal item.
     PmenuSel     { fg = clrs.base01, bg = clrs.base2, gui = p.revbb }, -- Popup menu: selected item.
     PmenuSbar    { fg = clrs.base2, bg = clrs.base0, gui = p.revbb }, -- Popup menu: scrollbar.
@@ -376,20 +376,50 @@ local theme = lush(function()
     sassProperty { Type };
     htmlTagName { Type };
 
-    -- PreProc { gui = s.b };
+    -- Solarized separators are a little garish.
+    -- This moves separators, comments, and normal
+    -- text into the same color family as the background.
+    -- Using the http://drpeterjones.com/colorcalc/,
+    -- they are now just differently saturated and
+    -- valued riffs on the background color, making
+    -- everything play together just a little more nicely.
+    --
+    VertSplit { fg = "#003745" };
+    LineNR { fg = "#004C60", gui = s.b, bg = "#002B36" };
+    htmlLink { Include };
+    EasyMotionTarget { fg = "#4CE660", gui = s.b };
 
-  -- Solarized separators are a little garish.
-  -- This moves separators, comments, and normal
-  -- text into the same color family as the background.
-  -- Using the http://drpeterjones.com/colorcalc/,
-  -- they are now just differently saturated and
-  -- valued riffs on the background color, making
-  -- everything play together just a little more nicely.
-  --
-  VertSplit { fg = "#003745" };
-  LineNR { fg = "#004C60", gui = s.b, bg = "#002B36" };
-  htmlLink { Include };
-  EasyMotionTarget { fg = "#4CE660", gui = s.b };
+    -- diff highlighting
+    diffAdded { Statement };
+    diffLine { Identifier };
+
+    -- git and gitcommit
+    gitcommitComment { fg = clrs.base01, gui = s.i };
+    gicommitUntracked { gitcommitComment };
+    gicommitDiscarded { gitcommitComment };
+    gicommitSelected { gitcommitComment };
+    gitcommitUnmerged { fg = clrs.green, gui = s.b };
+    gitcommitOnBranch { fg = clrs.base01, gui = s.b };
+    gitcommitBranch { fg = clrs.magenta, gui = s.b };
+    gitcommitNoBranch { gitcommitBranch };
+    gitcommitDiscardedType { fg = clrs.red };
+    gitcommitSelectedType { fg = clrs.green };
+    gitcommitHeader { fg = clrs.base01 };
+    gitcommitUntrackedFile { fg = clrs.cyan, gui = s.b };
+    gitcommitDiscardedFile { fg = clrs.red, gui = s.b };
+    gitcommitSelectedFile { fg = clrs.green, gui = s.b };
+    gitcommitUnmergedFile { fg = clrs.yellow, gui = s.b };
+    gitcommitFile { fg = clrs.base0, gui = s.b };
+    gitcommitDiscardedArrow { gitcommitDiscardedFile };
+    gitcommitSelectedArrow { gitcommitSelectedFile };
+    gitcommitUnmergedArrow { gitcommitUnmergedFile };
+
+    -- gitgutter
+    GitGutterAdd { fg = clrs.green };
+    GitGutterChange { fg = clrs.yellow };
+    GitGutterDelete { fg = clrs.red };
+    GitGutterChangeDelete { fg = clrs.red };
+
   }
 end)
 
