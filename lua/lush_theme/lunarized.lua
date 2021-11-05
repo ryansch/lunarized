@@ -55,22 +55,22 @@ local gui_combine = function(gui)
 end
 
 local clrs = {
-  base03 = "#002b36",
-  base02 = "#073642",
-  base01 = "#586e75",
-  base00 = "#657b83",
-  base0 = "#839496",
-  base1 = "#93a1a1",
-  base2 = "#eee8d5",
-  base3 = "#fdf6e3",
-  yellow = "#b58900",
-  orange = "#cb4b16",
-  red = "#dc322f",
-  magenta = "#d33682",
-  violet = "#6c71c4",
-  blue = "#268bd2",
-  cyan = "#2aa198",
-  green = "#719e07", -- original is "#859900"
+  base03 = hsl(193, 96, 11),
+  base02 = hsl(192, 83, 14),
+  base01 = hsl(195, 16, 40),
+  base00 = hsl(195, 14, 45),
+  base0 = hsl(187, 8, 55), --"#839496",
+  base1 = hsl(184, 7, 60), --"#93a1a1",
+  base2 = hsl(48, 41, 88), --"#eee8d5",
+  base3 = hsl(44, 87, 94), --"#fdf6e3",
+  yellow = hsl(46, 100, 35), --"#b58900",
+  orange = hsl(18, 80, 44), --"#cb4b16",
+  red = hsl(1, 72, 52), --"#dc322f",
+  magenta = hsl(331, 64, 52), --"#d33682",
+  violet = hsl(238, 44, 60), --"#6c71c4",
+  blue = hsl(205, 69, 49), --"#268bd2",
+  cyan = hsl(175, 58, 40), -- "#2aa198",
+  green = hsl(78, 94, 32), --"#719e07", -- original is "#859900"
 }
 
 local cfg = {
@@ -237,20 +237,20 @@ local theme = lush(function()
     -- LspReferenceRead                     { }, -- used for highlighting "read" references
     -- LspReferenceWrite                    { }, -- used for highlighting "write" references
 
-    -- LspDiagnosticsDefaultError           { }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
-    -- LspDiagnosticsDefaultWarning         { }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
-    -- LspDiagnosticsDefaultInformation     { }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
-    -- LspDiagnosticsDefaultHint            { }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
+    LspDiagnosticsDefaultError           { fg = clrs.red }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
+    LspDiagnosticsDefaultWarning         { fg = clrs.yellow }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
+    LspDiagnosticsDefaultInformation     { fg = clrs.cyan }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
+    LspDiagnosticsDefaultHint            { fg = clrs.green }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
 
     -- LspDiagnosticsVirtualTextError       { }, -- Used for "Error" diagnostic virtual text
     -- LspDiagnosticsVirtualTextWarning     { }, -- Used for "Warning" diagnostic virtual text
     -- LspDiagnosticsVirtualTextInformation { }, -- Used for "Information" diagnostic virtual text
     -- LspDiagnosticsVirtualTextHint        { }, -- Used for "Hint" diagnostic virtual text
 
-    -- LspDiagnosticsUnderlineError         { }, -- Used to underline "Error" diagnostics
-    -- LspDiagnosticsUnderlineWarning       { }, -- Used to underline "Warning" diagnostics
-    -- LspDiagnosticsUnderlineInformation   { }, -- Used to underline "Information" diagnostics
-    -- LspDiagnosticsUnderlineHint          { }, -- Used to underline "Hint" diagnostics
+    LspDiagnosticsUnderlineError         { fg = s.none, gui = s.u }, -- Used to underline "Error" diagnostics
+    LspDiagnosticsUnderlineWarning       { LspDiagnosticsUnderlineError }, -- Used to underline "Warning" diagnostics
+    LspDiagnosticsUnderlineInformation   { LspDiagnosticsUnderlineError }, -- Used to underline "Information" diagnostics
+    LspDiagnosticsUnderlineHint          { LspDiagnosticsUnderlineError }, -- Used to underline "Hint" diagnostics
 
     -- LspDiagnosticsFloatingError          { }, -- Used to color "Error" diagnostic messages in diagnostics float
     -- LspDiagnosticsFloatingWarning        { }, -- Used to color "Warning" diagnostic messages in diagnostics float
@@ -420,6 +420,83 @@ local theme = lush(function()
     GitGutterDelete { fg = clrs.red };
     GitGutterChangeDelete { fg = clrs.red };
 
+    --
+    -- octo
+    OctoGreen { fg = clrs.green };
+    OctoRed { fg = clrs.red };
+    OctoPurple { fg = clrs.violet };
+    OctoYellow { fg = clrs.yellow };
+    OctoBlue { fg = clrs.blue };
+    OctoGrey { fg = clrs.base0 };
+
+    OctoBubbleGreen { fg = clrs.green, bg = clrs.green.darken(75) };
+    OctoBubbleRed { fg = clrs.red, bg = clrs.red.darken(80) };
+    OctoBubblePurple { fg = clrs.base2, bg = clrs.violet };
+    OctoBubbleYellow { fg = clrs.yellow, bg = clrs.yellow.darken(75) };
+    OctoBubbleBlue { fg = clrs.blue, bg = clrs.blue.darken(75) };
+
+    -- Bubble delimiters are hiding here
+    OctoBubbleDelimiterGreen { fg = OctoBubbleGreen.bg };
+    OctoBubbleDelimiterRed { fg = OctoBubbleRed.bg },
+    OctoBubbleDelimiterYellow { fg = OctoBubbleYellow.bg },
+    OctoBubbleDelimiterBlue { fg = OctoBubbleBlue.bg },
+
+    OctoFilePanelTitle { fg = Directory.fg, gui = s.b };
+    OctoFilePanelCounter { fg = Identifier.fg, gui = s.b };
+    OctoNormalFront { fg = Normal.fg };
+    OctoViewer { fg = clrs.base03, bg = clrs.blue };
+
+    -- OctoNormal { };
+    -- OctoCursorLine { };
+    -- OctoVertSplit { };
+    -- OctoSignColumn { };
+    -- OctoStatusLine { };
+    -- OctoStatusLineNC { };
+    -- OctoEndOfBuffer { };
+    -- OctoFilePanelFileName { };
+    -- OctoFilePanelPath { };
+    -- OctoStatusAdded { };
+    -- OctoStatusUntracked { };
+    -- OctoStatusModified { };
+    -- OctoStatusRenamed { };
+    -- OctoStatusCopied { };
+    -- OctoStatusTypeChange { };
+    -- OctoStatusUnmerged { };
+    -- OctoStatusUnknown { };
+    -- OctoStatusDeleted { };
+    -- OctoStatusBroken { };
+    -- OctoDirty { };
+    -- OctoIssueId { };
+    -- OctoIssueTitle { };
+    -- OctoEmpty { };
+    -- OctoFloat { };
+    -- OctoTimelineItemHeading { };
+    -- OctoTimelineMarker { };
+    -- OctoSymbol { };
+    -- OctoDate { };
+    -- OctoDetailsLabel { };
+    -- OctoDetailsValue { };
+    -- OctoMissingDetails { };
+    -- OctoEditable { };
+    -- OctoBubble { };
+    -- OctoUser { };
+    -- OctoUserViewer { };
+    -- OctoReaction { };
+    -- OctoReactionViewer { };
+    -- OctoPassingTest { };
+    -- OctoFailingTest { };
+    -- OctoDiffstatAdditions { };
+    -- OctoDiffstatDeletions { };
+    -- OctoDiffstatNeutral { };
+    -- OctoStateOpen { };
+    -- OctoStateClosed { };
+    -- OctoStateMerged { };
+    -- OctoStatePending { };
+    -- OctoStateApproved { };
+    -- OctoStateChangesRequested { };
+    -- OctoStateCommented { };
+    -- OctoStateDismissed { };
+    -- OctoStateSubmitted { };
   }
 end)
 
