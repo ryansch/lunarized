@@ -237,30 +237,30 @@ local theme = lush(function()
     -- LspReferenceRead                     { }, -- used for highlighting "read" references
     -- LspReferenceWrite                    { }, -- used for highlighting "write" references
 
-    LspDiagnosticsDefaultError           { fg = clrs.red }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
-    LspDiagnosticsDefaultWarning         { fg = clrs.yellow }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
-    LspDiagnosticsDefaultInformation     { fg = clrs.cyan }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
-    LspDiagnosticsDefaultHint            { fg = clrs.green }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
+    DiagnosticError                      { fg = clrs.red }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticWarn                       { fg = clrs.yellow }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticInfo                       { fg = clrs.cyan }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticHint                       { fg = clrs.green }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
 
-    -- LspDiagnosticsVirtualTextError       { }, -- Used for "Error" diagnostic virtual text
-    -- LspDiagnosticsVirtualTextWarning     { }, -- Used for "Warning" diagnostic virtual text
-    -- LspDiagnosticsVirtualTextInformation { }, -- Used for "Information" diagnostic virtual text
-    -- LspDiagnosticsVirtualTextHint        { }, -- Used for "Hint" diagnostic virtual text
+    -- DiagnosticVirtualTextError           { }, -- Used for "Error" diagnostic virtual text
+    -- DiagnosticVirtualTextWarn            { }, -- Used for "Warning" diagnostic virtual text
+    -- DiagnosticVirtualTextInfo            { }, -- Used for "Information" diagnostic virtual text
+    -- DiagnosticVirtualTextHint            { }, -- Used for "Hint" diagnostic virtual text
 
-    LspDiagnosticsUnderlineError         { fg = s.none, gui = s.u }, -- Used to underline "Error" diagnostics
-    LspDiagnosticsUnderlineWarning       { LspDiagnosticsUnderlineError }, -- Used to underline "Warning" diagnostics
-    LspDiagnosticsUnderlineInformation   { LspDiagnosticsUnderlineError }, -- Used to underline "Information" diagnostics
-    LspDiagnosticsUnderlineHint          { LspDiagnosticsUnderlineError }, -- Used to underline "Hint" diagnostics
+    DiagnosticUnderlineError             { fg = s.none, gui = s.u }, -- Used to underline "Error" diagnostics
+    DiagnosticUnderlineWarn              { DiagnosticUnderlinError }, -- Used to underline "Warning" diagnostics
+    DiagnosticUnderlineInfo              { DiagnosticUnderlinError }, -- Used to underline "Information" diagnostics
+    DiagnosticUnderlineHint              { DiagnosticUnderlinError }, -- Used to underline "Hint" diagnostics
 
-    -- LspDiagnosticsFloatingError          { }, -- Used to color "Error" diagnostic messages in diagnostics float
-    -- LspDiagnosticsFloatingWarning        { }, -- Used to color "Warning" diagnostic messages in diagnostics float
-    -- LspDiagnosticsFloatingInformation    { }, -- Used to color "Information" diagnostic messages in diagnostics float
-    -- LspDiagnosticsFloatingHint           { }, -- Used to color "Hint" diagnostic messages in diagnostics float
+    -- DiagnosticFloatingError              { }, -- Used to color "Error" diagnostic messages in diagnostics float
+    -- DiagnosticFloatingWarn               { }, -- Used to color "Warning" diagnostic messages in diagnostics float
+    -- DiagnosticFloatingInfo               { }, -- Used to color "Information" diagnostic messages in diagnostics float
+    -- DiagnosticFloatingHint               { }, -- Used to color "Hint" diagnostic messages in diagnostics float
 
-    -- LspDiagnosticsSignError              { }, -- Used for "Error" signs in sign column
-    -- LspDiagnosticsSignWarning            { }, -- Used for "Warning" signs in sign column
-    -- LspDiagnosticsSignInformation        { }, -- Used for "Information" signs in sign column
-    -- LspDiagnosticsSignHint               { }, -- Used for "Hint" signs in sign column
+    -- DiagnosticSignError                  { }, -- Used for "Error" signs in sign column
+    -- DiagnosticSignWarn                   { }, -- Used for "Warning" signs in sign column
+    -- DiagnosticSignInfo                   { }, -- Used for "Information" signs in sign column
+    -- DiagnosticSignHint                   { }, -- Used for "Hint" signs in sign column
 
     -- LspCodeLens                          { }, -- Used to color the virtual text of the codelens
 
