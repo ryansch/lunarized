@@ -248,9 +248,9 @@ local theme = lush(function()
     -- DiagnosticVirtualTextHint            { }, -- Used for "Hint" diagnostic virtual text
 
     DiagnosticUnderlineError             { fg = s.none, gui = s.u }, -- Used to underline "Error" diagnostics
-    DiagnosticUnderlineWarn              { DiagnosticUnderlinError }, -- Used to underline "Warning" diagnostics
-    DiagnosticUnderlineInfo              { DiagnosticUnderlinError }, -- Used to underline "Information" diagnostics
-    DiagnosticUnderlineHint              { DiagnosticUnderlinError }, -- Used to underline "Hint" diagnostics
+    DiagnosticUnderlineWarn              { DiagnosticUnderlineError }, -- Used to underline "Warning" diagnostics
+    DiagnosticUnderlineInfo              { DiagnosticUnderlineError }, -- Used to underline "Information" diagnostics
+    DiagnosticUnderlineHint              { DiagnosticUnderlineError }, -- Used to underline "Hint" diagnostics
 
     -- DiagnosticFloatingError              { }, -- Used to color "Error" diagnostic messages in diagnostics float
     -- DiagnosticFloatingWarn               { }, -- Used to color "Warning" diagnostic messages in diagnostics float
