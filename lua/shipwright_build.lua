@@ -34,8 +34,7 @@ run(colorscheme,
     }
   end,
 
-  -- now we can pass to alacritty, note that the transform accepts a name,
-  -- so we use a table with the transform and it's argument.
+  -- now pass to kitty
   {contrib.kitty},
 
   -- and now we can write, either to share or to our local config
