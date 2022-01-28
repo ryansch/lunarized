@@ -38,4 +38,4 @@ run(colorscheme,
   {contrib.kitty},
 
   -- and now we can write, either to share or to our local config
-  {overwrite, "/home/ubuntu/.dotfiles/kitty/lunarized.conf"})
+  {overwrite, vim.fn.expand("~/.dotfiles/kitty/lunarized.conf")})
