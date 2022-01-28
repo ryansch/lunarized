@@ -215,10 +215,6 @@ local theme = lush(function()
     -- use these groups, or use their own. Consult your LSP client's
     -- documentation.
 
-    -- LspReferenceText                     { }, -- used for highlighting "text" references
-    -- LspReferenceRead                     { }, -- used for highlighting "read" references
-    -- LspReferenceWrite                    { }, -- used for highlighting "write" references
-
     DiagnosticError                      { fg = clrs.red }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     DiagnosticWarn                       { fg = clrs.yellow }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     DiagnosticInfo                       { fg = clrs.cyan }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
@@ -243,8 +239,6 @@ local theme = lush(function()
     -- DiagnosticSignWarn                   { }, -- Used for "Warning" signs in sign column
     -- DiagnosticSignInfo                   { }, -- Used for "Information" signs in sign column
     -- DiagnosticSignHint                   { }, -- Used for "Hint" signs in sign column
-
-    -- LspCodeLens                          { }, -- Used to color the virtual text of the codelens
 
     -- These groups are for the neovim tree-sitter highlights.
     -- As of writing, tree-sitter support is a WIP, group names may change.
@@ -303,60 +297,60 @@ local theme = lush(function()
     -- TSTitle              { };    -- Text that is part of a title.
     -- TSLiteral            { };    -- Literal text.
     -- TSURI                { };    -- Any URI like a link or email.
-  
-    
-    -- Ported overrides from YADR
-    txtBold              { Identifier };
-    zshVariableDef       { Identifier };
-    zshFunction          { Function };
-    rubyControl          { Statement };
-    rspecGroupMethods    { rubyControl };
-    rspecMocks           { Identifier };
-    rspecKeywords        { Identifier };
-    rubyLocalVariableOrMethod { Normal };
-    rubyStringDelimiter { Constant };
-    rubyString { Constant };
-    rubyAccess { Todo };
-    rubySymbol { Identifier };
-    rubyPseudoVariable { Type };
-    rubyRailsARAssociationMethod { Title };
-    rubyRailsARValidationMethod { Title };
-    rubyRailsMethod { Title };
-    rubyDoBlock { Normal };
-    MatchParen { DiffText };
-  
-    CTagsModule { Type };
-    CTagsClass { Type };
-    CTagsMethod { Identifier };
-    CTagsSingleton { Identifier };
 
-    javascriptFuncName { Type };
-    -- jsFuncCall { jsFuncName };
-    javascriptFunction { Statement };
-    javascriptThis { Statement };
-    javascriptParens { Normal };
-    -- jOperators { javascriptStringD };
-    jId { Title };
-    jClass { Title };
+
+    -- Ported overrides from YADR
+    txtBold              { Identifier },
+    zshVariableDef       { Identifier },
+    zshFunction          { Function },
+    rubyControl          { Statement },
+    rspecGroupMethods    { rubyControl },
+    rspecMocks           { Identifier },
+    rspecKeywords        { Identifier },
+    rubyLocalVariableOrMethod { Normal },
+    rubyStringDelimiter { Constant },
+    rubyString { Constant },
+    rubyAccess { Todo },
+    rubySymbol { Identifier },
+    rubyPseudoVariable { Type },
+    rubyRailsARAssociationMethod { Title },
+    rubyRailsARValidationMethod { Title },
+    rubyRailsMethod { Title },
+    rubyDoBlock { Normal },
+    MatchParen { DiffText },
+  
+    CTagsModule { Type },
+    CTagsClass { Type },
+    CTagsMethod { Identifier },
+    CTagsSingleton { Identifier },
+
+    javascriptFuncName { Type },
+    -- jsFuncCall { jsFuncName },
+    javascriptFunction { Statement },
+    javascriptThis { Statement },
+    javascriptParens { Normal },
+    -- jOperators { javascriptStringD },
+    jId { Title },
+    jClass { Title },
 
     -- " Javascript language support
-    javascriptJGlobalMethod { Statement };
+    javascriptJGlobalMethod { Statement },
 
     -- " Make the braces and other noisy things slightly less noisy
     -- hi! jsParens guifg=#005F78 cterm=NONE term=NONE ctermfg=NONE ctermbg=NONE
-    jsParens { fg = "#005F78" };
-    jsFuncParens { jsParens };
-    jsFuncBraces { jsParens };
-    jsBraces { jsParens };
-    jsNoise { jsParens };
-    
-    NERDTreeFile { Constant };
-    NERDTreeDir { Identifier };
+    jsParens { fg = "#005F78" },
+    jsFuncParens { jsParens },
+    jsFuncBraces { jsParens },
+    jsBraces { jsParens },
+    jsNoise { jsParens },
 
-    sassMixinName { Function };
-    sassDefinition { Function };
-    sassProperty { Type };
-    htmlTagName { Type };
+    NERDTreeFile { Constant },
+    NERDTreeDir { Identifier },
+
+    sassMixinName { Function },
+    sassDefinition { Function },
+    sassProperty { Type },
+    htmlTagName { Type },
 
     -- Solarized separators are a little garish.
     -- This moves separators, comments, and normal
@@ -366,119 +360,152 @@ local theme = lush(function()
     -- valued riffs on the background color, making
     -- everything play together just a little more nicely.
     --
-    VertSplit { fg = "#003745" };
-    LineNR { fg = "#004C60", gui = s.b, bg = "#002B36" };
-    htmlLink { Include };
-    EasyMotionTarget { fg = "#4CE660", gui = s.b };
+    VertSplit { fg = "#003745" },
+    LineNR { fg = "#004C60", gui = s.b, bg = "#002B36" },
+    htmlLink { Include },
+    EasyMotionTarget { fg = "#4CE660", gui = s.b },
 
     -- diff highlighting
-    diffAdded { Statement };
-    diffLine { Identifier };
+    diffAdded { Statement },
+    diffLine { Identifier },
 
     -- git and gitcommit
-    gitcommitComment { fg = clrs.base01, gui = s.i };
-    gicommitUntracked { gitcommitComment };
-    gicommitDiscarded { gitcommitComment };
-    gicommitSelected { gitcommitComment };
-    gitcommitUnmerged { fg = clrs.green, gui = s.b };
-    gitcommitOnBranch { fg = clrs.base01, gui = s.b };
-    gitcommitBranch { fg = clrs.magenta, gui = s.b };
-    gitcommitNoBranch { gitcommitBranch };
-    gitcommitDiscardedType { fg = clrs.red };
-    gitcommitSelectedType { fg = clrs.green };
-    gitcommitHeader { fg = clrs.base01 };
-    gitcommitUntrackedFile { fg = clrs.cyan, gui = s.b };
-    gitcommitDiscardedFile { fg = clrs.red, gui = s.b };
-    gitcommitSelectedFile { fg = clrs.green, gui = s.b };
-    gitcommitUnmergedFile { fg = clrs.yellow, gui = s.b };
-    gitcommitFile { fg = clrs.base0, gui = s.b };
-    gitcommitDiscardedArrow { gitcommitDiscardedFile };
-    gitcommitSelectedArrow { gitcommitSelectedFile };
-    gitcommitUnmergedArrow { gitcommitUnmergedFile };
+    gitcommitComment { fg = clrs.base01, gui = s.i },
+    gicommitUntracked { gitcommitComment },
+    gicommitDiscarded { gitcommitComment },
+    gicommitSelected { gitcommitComment },
+    gitcommitUnmerged { fg = clrs.green, gui = s.b },
+    gitcommitOnBranch { fg = clrs.base01, gui = s.b },
+    gitcommitBranch { fg = clrs.magenta, gui = s.b },
+    gitcommitNoBranch { gitcommitBranch },
+    gitcommitDiscardedType { fg = clrs.red },
+    gitcommitSelectedType { fg = clrs.green },
+    gitcommitHeader { fg = clrs.base01 },
+    gitcommitUntrackedFile { fg = clrs.cyan, gui = s.b },
+    gitcommitDiscardedFile { fg = clrs.red, gui = s.b },
+    gitcommitSelectedFile { fg = clrs.green, gui = s.b },
+    gitcommitUnmergedFile { fg = clrs.yellow, gui = s.b },
+    gitcommitFile { fg = clrs.base0, gui = s.b },
+    gitcommitDiscardedArrow { gitcommitDiscardedFile },
+    gitcommitSelectedArrow { gitcommitSelectedFile },
+    gitcommitUnmergedArrow { gitcommitUnmergedFile },
 
     -- gitgutter
-    GitGutterAdd { fg = clrs.green };
-    GitGutterChange { fg = clrs.yellow };
-    GitGutterDelete { fg = clrs.red };
-    GitGutterChangeDelete { fg = clrs.red };
+    GitGutterAdd { fg = clrs.green },
+    GitGutterChange { fg = clrs.yellow },
+    GitGutterDelete { fg = clrs.red },
+    GitGutterChangeDelete { fg = clrs.red },
 
     --
     -- octo
-    OctoGreen { fg = clrs.green };
-    OctoRed { fg = clrs.red };
-    OctoPurple { fg = clrs.violet };
-    OctoYellow { fg = clrs.yellow };
-    OctoBlue { fg = clrs.blue };
-    OctoGrey { fg = clrs.base0 };
+    OctoGreen { fg = clrs.green },
+    OctoRed { fg = clrs.red },
+    OctoPurple { fg = clrs.violet },
+    OctoYellow { fg = clrs.yellow },
+    OctoBlue { fg = clrs.blue },
+    OctoGrey { fg = clrs.base0 },
 
-    OctoBubbleGreen { fg = clrs.green, bg = clrs.green.darken(75) };
-    OctoBubbleRed { fg = clrs.red, bg = clrs.red.darken(80) };
-    OctoBubblePurple { fg = clrs.base2, bg = clrs.violet };
-    OctoBubbleYellow { fg = clrs.yellow, bg = clrs.yellow.darken(75) };
-    OctoBubbleBlue { fg = clrs.blue, bg = clrs.blue.darken(75) };
+    OctoBubbleGreen { fg = clrs.green, bg = clrs.green.darken(75) },
+    OctoBubbleRed { fg = clrs.red, bg = clrs.red.darken(80) },
+    OctoBubblePurple { fg = clrs.base2, bg = clrs.violet },
+    OctoBubbleYellow { fg = clrs.yellow, bg = clrs.yellow.darken(75) },
+    OctoBubbleBlue { fg = clrs.blue, bg = clrs.blue.darken(75) },
 
     -- Bubble delimiters are hiding here
-    OctoBubbleDelimiterGreen { fg = OctoBubbleGreen.bg };
+    OctoBubbleDelimiterGreen { fg = OctoBubbleGreen.bg },
     OctoBubbleDelimiterRed { fg = OctoBubbleRed.bg },
     OctoBubbleDelimiterYellow { fg = OctoBubbleYellow.bg },
     OctoBubbleDelimiterBlue { fg = OctoBubbleBlue.bg },
 
-    OctoFilePanelTitle { fg = Directory.fg, gui = s.b };
-    OctoFilePanelCounter { fg = Identifier.fg, gui = s.b };
-    OctoNormalFront { fg = Normal.fg };
-    OctoViewer { fg = clrs.base03, bg = clrs.blue };
+    OctoFilePanelTitle { fg = Directory.fg, gui = s.b },
+    OctoFilePanelCounter { fg = Identifier.fg, gui = s.b },
+    OctoNormalFront { fg = Normal.fg },
+    OctoViewer { fg = clrs.base03, bg = clrs.blue },
 
-    -- OctoNormal { };
-    -- OctoCursorLine { };
-    -- OctoVertSplit { };
-    -- OctoSignColumn { };
-    -- OctoStatusLine { };
-    -- OctoStatusLineNC { };
-    -- OctoEndOfBuffer { };
-    -- OctoFilePanelFileName { };
-    -- OctoFilePanelPath { };
-    -- OctoStatusAdded { };
-    -- OctoStatusUntracked { };
-    -- OctoStatusModified { };
-    -- OctoStatusRenamed { };
-    -- OctoStatusCopied { };
-    -- OctoStatusTypeChange { };
-    -- OctoStatusUnmerged { };
-    -- OctoStatusUnknown { };
-    -- OctoStatusDeleted { };
-    -- OctoStatusBroken { };
-    -- OctoDirty { };
-    -- OctoIssueId { };
-    -- OctoIssueTitle { };
-    -- OctoEmpty { };
-    -- OctoFloat { };
-    -- OctoTimelineItemHeading { };
-    -- OctoTimelineMarker { };
-    -- OctoSymbol { };
-    -- OctoDate { };
-    -- OctoDetailsLabel { };
-    -- OctoDetailsValue { };
-    -- OctoMissingDetails { };
-    -- OctoEditable { };
-    -- OctoBubble { };
-    -- OctoUser { };
-    -- OctoUserViewer { };
-    -- OctoReaction { };
-    -- OctoReactionViewer { };
-    -- OctoPassingTest { };
-    -- OctoFailingTest { };
-    -- OctoDiffstatAdditions { };
-    -- OctoDiffstatDeletions { };
-    -- OctoDiffstatNeutral { };
-    -- OctoStateOpen { };
-    -- OctoStateClosed { };
-    -- OctoStateMerged { };
-    -- OctoStatePending { };
-    -- OctoStateApproved { };
-    -- OctoStateChangesRequested { };
-    -- OctoStateCommented { };
-    -- OctoStateDismissed { };
-    -- OctoStateSubmitted { };
+    -- OctoNormal { },
+    -- OctoCursorLine { },
+    -- OctoVertSplit { },
+    -- OctoSignColumn { },
+    -- OctoStatusLine { },
+    -- OctoStatusLineNC { },
+    -- OctoEndOfBuffer { },
+    -- OctoFilePanelFileName { },
+    -- OctoFilePanelPath { },
+    -- OctoStatusAdded { },
+    -- OctoStatusUntracked { },
+    -- OctoStatusModified { },
+    -- OctoStatusRenamed { },
+    -- OctoStatusCopied { },
+    -- OctoStatusTypeChange { },
+    -- OctoStatusUnmerged { },
+    -- OctoStatusUnknown { },
+    -- OctoStatusDeleted { },
+    -- OctoStatusBroken { },
+    -- OctoDirty { },
+    -- OctoIssueId { },
+    -- OctoIssueTitle { },
+    -- OctoEmpty { },
+    -- OctoFloat { },
+    -- OctoTimelineItemHeading { },
+    -- OctoTimelineMarker { },
+    -- OctoSymbol { },
+    -- OctoDate { },
+    -- OctoDetailsLabel { },
+    -- OctoDetailsValue { },
+    -- OctoMissingDetails { },
+    -- OctoEditable { },
+    -- OctoBubble { },
+    -- OctoUser { },
+    -- OctoUserViewer { },
+    -- OctoReaction { },
+    -- OctoReactionViewer { },
+    -- OctoPassingTest { },
+    -- OctoFailingTest { },
+    -- OctoDiffstatAdditions { },
+    -- OctoDiffstatDeletions { },
+    -- OctoDiffstatNeutral { },
+    -- OctoStateOpen { },
+    -- OctoStateClosed { },
+    -- OctoStateMerged { },
+    -- OctoStatePending { },
+    -- OctoStateApproved { },
+    -- OctoStateChangesRequested { },
+    -- OctoStateCommented { },
+    -- OctoStateDismissed { },
+    -- OctoStateSubmitted { },
+
+    -- The following sections are borrowed from https://github.com/projekt0n/github-nvim-theme/blob/main/lua/github-theme/theme.lua
+    --
+    -- Markdown
+    -- markdownHeadingRule { Character },
+    -- markdownListMarker { fg = c.syntax.param },
+    -- markdownRule { fg = c.syntax.variable },
+    -- markdownBold { fg = c.fg, style = Styles.Bold },
+    -- markdownItalic { fg = c.fg, style = Styles.Italic },
+    -- markdownCode { fg = c.fg },
+    -- markdownCodeBlock { fg = c.fg },
+    -- markdownBlockquote { fg = c.syntax.tag },
+    -- markdownCodeDelimiter { fg = c.syntax.func },
+    -- markdownUrlTitle { fg = c.syntax.string, style = Styles.Underline },
+
+    -- Telescope
+    TelescopeNormal { Normal, bg = Normal.bg.darken(13) },
+    TelescopeBorder { TelescopeNormal, fg = clrs.base01 },
+    TelescopeMatching { Title },
+    TelescopeTitle { Normal, gui = "bold" },
+
+    TelescopePreviewTitle { fg = clrs.cyan, bg = TelescopeNormal.bg, gui = s.i },
+
+    TelescopePromptNormal { Normal, bg = Normal.bg.darken(2) },
+    TelescopePromptPrefix { Statement, bg = TelescopePromptNormal.bg },
+    TelescopePromptBorder { fg = s.none, bg = TelescopePromptNormal.bg },
+    TelescopePromptTitle { fg = clrs.blue, bg = TelescopePromptNormal.bg, gui = s.i },
+
+    TelescopeSelection { Visual, bg = TelescopeNormal.bg },
+    TelescopeSelectionCaret { TelescopeSelection, fg = clrs.base1 },
+    -- TelescopeResultsTitle { },
+
+    -- TelescopeMultiSelection {},
   }
 end)
 
