@@ -5,7 +5,7 @@ run(colorscheme,
   function (colors)
     return {
       fg = colors.base0,
-      bg = colors.base02,
+      bg = colors.base03,
       cursor_fg = colors.base03,
       cursor_bg = colors.base0,
       selection_fg = colors.base01,
