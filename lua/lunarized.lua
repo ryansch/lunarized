@@ -17,7 +17,7 @@ local colors = {
   violet = hsl(238, 44, 60),
   blue = hsl(205, 69, 49),
   cyan = hsl(175, 58, 40),
-  green = hsl(78, 94, 32),
+  green = hsl(68, 100, 30),
 }
 
 return {
