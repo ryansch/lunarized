@@ -39,6 +39,10 @@ run(colorscheme,
       tab_inactive_fg = colors.base0,
       tab_inactive_bg = colors.base03.darken(30),
 
+      border_active = "none",
+      border_inactive = colors.blue,
+      border_bell = colors.yellow,
+
       name = "Lunarized",
       author = "Ryan Schlesinger",
       upstream = "https://github.com/ryansch/lunarized",
