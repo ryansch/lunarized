@@ -20,6 +20,16 @@ local colors = {
   green = hsl(68, 100, 30),
 }
 
+local palette = {
+  fg = colors.base0,
+  bg = colors.base03,
+  accent = colors.blue,
+
+  fg_tools = colors.base1,
+  bg_tools = colors.base02,
+}
+
 return {
   colors = colors,
+  palette = palette,
 }
