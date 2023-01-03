@@ -204,6 +204,7 @@ local theme = lush(function(injected_functions)
     Underlined { fg = clrs.violet, gui = "underline" }, -- (preferred) text that stands out, HTML links
     Bold       { gui = s.b },
     Italic     { gui = s.i },
+    Strike     { gui = "strikethrough" },
 
     -- ("Ignore", below, may be invisible...)
     Ignore         { fg = "NONE", bg = "NONE" }, -- (preferred) left blank, hidden  |hl-Ignore|
@@ -325,7 +326,7 @@ local theme = lush(function(injected_functions)
     sym("@text.strong") { Bold }, -- bold text
     sym("@text.emphasis") { Italic }, -- text with emphasis
     sym("@text.underline") { Underlined }, -- underlined text
-    -- sym("@text.strike") { }, -- strikethrough text
+    sym("@text.strike") { Strike }, -- strikethrough text
     sym("@text.title") { Title }, -- text that is part of a title
     sym("@text.literal") { Constant }, -- literal or verbatim text
     sym("@text.uri") { Underlined }, -- URIs (e.g. hyperlinks)
