@@ -242,6 +242,19 @@ local theme = lush(function(injected_functions)
     -- DiagnosticSignInfo                   { }, -- Used for "Information" signs in sign column
     -- DiagnosticSignHint                   { }, -- Used for "Hint" signs in sign column
 
+    -- LSP Semantic Tokens
+    -- To find the highlight groups: see https://github.com/neovim/neovim/blob/master/src/nvim/highlight_group.c#L267
+    sym("@class") { Structure },
+    sym("@struct") { Structure },
+    sym("@enum") { Type },
+    sym("@enumMember") { Constant },
+    sym("@event") { Identifier },
+    sym("@interface") { Identifier },
+    sym("@modifier") { Identifier },
+    sym("@regexp") { SpecialChar },
+    sym("@typeParameter") { Type },
+    sym("@decorator") { Identifier },
+
     -- Treesitter
     -- See: https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#parser-configurations
     --
