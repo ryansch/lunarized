@@ -85,7 +85,8 @@ local p = {
 -- LSP/Linters mistakenly show `undefined global` errors in the spec, they may
 -- support an annotation like the following. Consult your server documentation.
 ---@diagnostic disable: undefined-global
-local theme = lush(function()
+local theme = lush(function(injected_functions)
+  local sym = injected_functions.sym
   return {
     -- The following are all the Neovim default highlight groups from the docs
     -- as of 0.5.0-nightly-446, to aid your theme creation. Your themes should
@@ -189,16 +190,16 @@ local theme = lush(function()
     PreCondit      { PreProc }, --  preprocessor #if, #else, #endif, etc.
 
     Type           { fg = clrs.yellow, gui = s.b }, -- (preferred) int, long, char, etc.
-    -- StorageClass   { }, -- static, register, volatile, etc.
-    -- Structure      { }, --  struct, union, enum, etc.
-    -- Typedef        { }, --  A typedef
+    StorageClass   { Type }, -- static, register, volatile, etc.
+    Structure      { Type }, --  struct, union, enum, etc.
+    Typedef        { Type }, --  A typedef
 
     Special        { fg = clrs.red }, -- (preferred) any special symbol
-    -- SpecialChar    { }, --  special character in a constant
-    -- Tag            { }, --    you can use CTRL-] on this
-    -- Delimiter      { }, --  character that needs attention
-    -- SpecialComment { }, -- special things inside a comment
-    -- Debug          { }, --    debugging statements
+    SpecialChar    { Special }, --  special character in a constant
+    Tag            { Special }, --    you can use CTRL-] on this
+    Delimiter      { Special }, --  character that needs attention
+    SpecialComment { Special }, -- special things inside a comment
+    Debug          { Special }, --    debugging statements
 
     Underlined { fg = clrs.violet, gui = "underline" }, -- (preferred) text that stands out, HTML links
     Bold       { gui = s.b },
@@ -240,64 +241,118 @@ local theme = lush(function()
     -- DiagnosticSignInfo                   { }, -- Used for "Information" signs in sign column
     -- DiagnosticSignHint                   { }, -- Used for "Hint" signs in sign column
 
-    -- These groups are for the neovim tree-sitter highlights.
-    -- As of writing, tree-sitter support is a WIP, group names may change.
-    -- By default, most of these groups link to an appropriate Vim group,
-    -- TSError -> Error for example, so you do not have to define these unless
-    -- you explicitly want to support Treesitter's improved syntax awareness.
+    -- Treesitter
+    -- See: https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#parser-configurations
+    --
+    -- Highlights
+    --
+    -- Misc
+    sym("@comment") { Comment }, -- line and block comments
+    sym("@error") { Error }, -- syntax/parser errors
+    -- sym("@none") { }, -- completely disable the highlight
+    sym("@preproc") { PreProc }, -- various preprocessor directives & shebangs
+    sym("@define") { Define }, -- preprocessor definition directives
+    sym("@operator") { Operator }, -- symbolic operators (e.g. `+` / `*`)
 
-    -- TSAnnotation         { };    -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
-    -- TSAttribute          { };    -- (unstable) TODO: docs
-    -- TSBoolean            { };    -- For booleans.
-    -- TSCharacter          { };    -- For characters.
-    -- TSComment            { };    -- For comment blocks.
-    -- TSConstructor        { };    -- For constructor calls and definitions: ` { }` in Lua, and Java constructors.
-    -- TSConditional        { };    -- For keywords related to conditionnals.
-    -- TSConstant           { };    -- For constants
-    -- TSConstBuiltin       { };    -- For constant that are built in the language: `nil` in Lua.
-    -- TSConstMacro         { };    -- For constants that are defined by macros: `NULL` in C.
-    -- TSError              { };    -- For syntax/parser errors.
-    -- TSException          { };    -- For exception related keywords.
-    -- TSField              { };    -- For fields.
-    -- TSFloat              { };    -- For floats.
-    -- TSFunction           { };    -- For function (calls and definitions).
-    -- TSFuncBuiltin        { };    -- For builtin functions: `table.insert` in Lua.
-    -- TSFuncMacro          { };    -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust.
-    -- TSInclude            { };    -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
-    -- TSKeyword            { };    -- For keywords that don't fall in previous categories.
-    -- TSKeywordFunction    { };    -- For keywords used to define a fuction.
-    -- TSLabel              { };    -- For labels: `label:` in C and `:label:` in Lua.
-    -- TSMethod             { };    -- For method calls and definitions.
-    -- TSNamespace          { };    -- For identifiers referring to modules and namespaces.
-    -- TSNone               { };    -- TODO: docs
-    -- TSNumber             { };    -- For all numbers
-    -- TSOperator           { };    -- For any operator: `+`, but also `->` and `*` in C.
-    -- TSParameter          { };    -- For parameters of a function.
-    -- TSParameterReference { };    -- For references to parameters of a function.
-    -- TSProperty           { };    -- Same as `TSField`.
-    -- TSPunctDelimiter     { };    -- For delimiters ie: `.`
-    -- TSPunctBracket       { };    -- For brackets and parens.
-    -- TSPunctSpecial       { };    -- For special punctutation that does not fall in the catagories before.
-    -- TSRepeat             { };    -- For keywords related to loops.
-    -- TSString             { };    -- For strings.
-    -- TSStringRegex        { };    -- For regexes.
-    -- TSStringEscape       { };    -- For escape characters within a string.
-    -- TSSymbol             { };    -- For identifiers referring to symbols or atoms.
-    -- TSType               { };    -- For types.
-    -- TSTypeBuiltin        { };    -- For builtin types.
-    -- TSVariable           { };    -- Any variable name that does not have another highlight.
-    -- TSVariableBuiltin    { };    -- Variable names that are defined by the languages, like `this` or `self`.
+    -- Punctuation
+    sym("@punctuation.delimiter") { Delimiter }, -- delimiters (e.g. `;` / `.` / `,`)
+    sym("@punctuation.bracket") { Special }, -- brackets (e.g. `()` / `{}` / `[]`)
+    sym("@punctuation.special") { Special }, -- special symbols (e.g. `{}` in string interpolation)
 
-    -- TSTag                { };    -- Tags like html tag names.
-    -- TSTagDelimiter       { };    -- Tag delimiter like `<` `>` `/`
-    -- TSText               { };    -- For strings considered text in a markup language.
-    -- TSEmphasis           { };    -- For text to be represented with emphasis.
-    -- TSUnderline          { };    -- For text to be represented with an underline.
-    -- TSStrike             { };    -- For strikethrough text.
-    -- TSTitle              { };    -- Text that is part of a title.
-    -- TSLiteral            { };    -- Literal text.
-    -- TSURI                { };    -- Any URI like a link or email.
+    -- Literals
+    sym("@string") { String }, -- string literals
+    sym("@string.regex") { String }, -- regular expressions
+    sym("@string.escape") { Character }, -- escape sequences
+    sym("@string.special") { Character }, -- other special strings (e.g. dates)
 
+    sym("@character") { Character }, -- character literals
+    sym("@character.special") { Special }, -- special characters (e.g. wildcards)
+
+    sym("@boolean") { Boolean }, -- boolean literals
+    sym("@number") { Number }, -- numeric literals
+    sym("@float") { Float }, -- floating-point number literals
+
+    -- Functions
+    sym("@function") { Function }, -- function definitions
+    -- sym("@function.builtin") { Function }, -- built-in functions
+    -- sym("@function.call") { Function }, -- function calls
+    -- sym("@function.macro") { Function }, -- preprocessor macros
+
+    sym("@method") { Function }, -- method definitions
+    -- sym("@method.call") { Function }, -- method calls
+
+    -- sym("@constructor") { Function }, -- constructor calls and definitions
+    -- sym("@parameter") { }, -- parameters of a function
+
+    -- Keywords
+    sym("@keyword") { Keyword }, -- various keywords
+    -- sym("@keyword.function") { }, -- keywords that define a function (e.g. `func` in Go, `def` in Python)
+    -- sym("@keyword.operator") { }, -- operators that are English words (e.g. `and` / `or`)
+    -- sym("@keyword.return") { }, -- keywords like `return` and `yield`
+
+    sym("@conditional") { Conditional }, -- keywords related to conditionals (e.g. `if` / `else`)
+    -- sym("@conditional.ternary") { }, -- Ternary operator: condition ? 1 : 2
+    sym("@repeat") { Repeat }, -- keywords related to loops (e.g. `for` / `while`)
+    sym("@debug") { Special }, -- keywords related to debugging
+    sym("@label") { Label }, -- GOTO and other labels (e.g. `label:` in C)
+    sym("@include") { Include }, -- keywords for including modules (e.g. `import` / `from` in Python)
+    sym("@exception") { Exception }, -- keywords related to exceptions (e.g. `throw` / `catch`)
+
+    -- Types
+    sym("@type") { Type }, -- type or class definitions and annotations
+    -- sym("@type.builtin") { }, -- built-in types
+    -- sym("@type.definition") { }, -- type definitions (e.g. `typedef` in C)
+    -- sym("@type.qualifier") { }, -- type qualifiers (e.g. `const`)
+
+    sym("@storageclass") { StorageClass }, -- visibility/life-time modifiers
+    -- sym("@attribute") { }, -- attribute annotations (e.g. Python decorators)
+    -- sym("@field") { }, -- object and struct fields
+    -- sym("@property") { }, -- similar to `@field`
+
+    -- Identifiers
+    sym("@variable") { Identifier }, -- various variable names
+    sym("@variable.builtin") { Identifier }, -- built-in variable names (e.g. `this`)
+
+    sym("@constant") { Constant }, -- constant identifiers
+    -- sym("@constant.builtin") { }, -- built-in constant values
+    -- sym("@constant.macro") { }, -- constants defined by the preprocessor
+
+    sym("@namespace") { Type }, -- modules or namespaces
+    sym("@symbol") { Constant }, -- symbols or atoms
+
+    -- Text
+    sym("@text") { Normal }, -- non-structured text
+    sym("@text.strong") { Bold }, -- bold text
+    sym("@text.emphasis") { Italic }, -- text with emphasis
+    sym("@text.underline") { Underlined }, -- underlined text
+    -- sym("@text.strike") { }, -- strikethrough text
+    sym("@text.title") { Title }, -- text that is part of a title
+    sym("@text.literal") { Constant }, -- literal or verbatim text
+    sym("@text.uri") { Underlined }, -- URIs (e.g. hyperlinks)
+    -- sym("@text.math") { }, -- math environments (e.g. `$ ... $` in LaTeX)
+    -- sym("@text.environment") { }, -- text environments of markup languages
+    -- sym("@text.environment.name") { }, -- text indicating the type of an environment
+    sym("@text.reference") { PreProc }, -- text references, footnotes, citations, etc.
+
+    sym("@text.todo") { Todo }, -- todo notes
+    sym("@text.note") { Statement }, -- info notes
+    sym("@text.warning") { Todo }, -- warning notes
+    sym("@text.danger") { Todo }, -- danger/error notes
+
+    sym("@text.diff.add") { Statement }, -- added text (for diff files)
+    sym("@text.diff.delete") { Identifier }, -- deleted text (for diff files)
+
+    -- Tags
+    sym("@tag") { Tag }, -- XML tag names
+    -- sym("@tag.attribute") { }, -- XML tag attributes
+    -- sym("@tag.delimiter") { }, -- XML tag delimiters
+
+    -- Conceal
+    sym("@conceal") { Conceal }, -- for captures that are only used for concealing
+
+    -- Spell
+    -- sym("@spell") { }, -- for defining regions to be spellchecked
+    -- sym("@nospell") { }, -- for defining regions that should NOT be spellchecked
 
     -- Ported overrides from YADR
     txtBold              { Identifier },
