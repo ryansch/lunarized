@@ -113,36 +113,44 @@ local theme = lush(function(injected_functions)
 		DiffChange { fg = clrs.yellow, bg = clrs.base02, sp = clrs.yellow, gui = s.b }, -- diff mode: Changed line |diff.txt|
 		DiffDelete { fg = clrs.red, bg = clrs.base02, gui = s.b }, -- diff mode: Deleted line |diff.txt|
 		DiffText { fg = clrs.blue, bg = clrs.base02, sp = clrs.blue, gui = s.b }, -- diff mode: Changed text within a changed line |diff.txt|
-		-- EndOfBuffer  { }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
-		-- TermCursor   { }, -- cursor in a focused terminal
-		-- TermCursorNC { }, -- cursor in an unfocused terminal
+		EndOfBuffer { fg = p.back }, -- filler lines (~) after the end of the buffer; hidden
+		TermCursor { Cursor }, -- cursor in a focused terminal
 		ErrorMsg { fg = clrs.red, gui = s.r }, -- error messages on the command line
-		VertSplit { fg = clrs.base00 }, -- the column separating vertically split windows
+		WinSeparator { fg = clrs.base01 }, -- separators between window splits (0.7+; VertSplit is the legacy name)
+		VertSplit { WinSeparator },
 		Folded { fg = clrs.base0, bg = clrs.base02, sp = clrs.base03, gui = s.b }, -- line used for closed folds
 		FoldColumn { fg = clrs.base0, bg = clrs.base02 }, -- 'foldcolumn'
 		SignColumn { fg = clrs.base0 }, -- column where |signs| are displayed
 		IncSearch { fg = clrs.orange, gui = s.s }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
-		-- Substitute   { }, -- |:substitute| replacement text highlighting
-		LineNR { fg = "#004C60", gui = s.b, bg = "#002B36" },
+		CurSearch { fg = clrs.base03, bg = clrs.orange }, -- current match for the last search pattern
+		LineNr { fg = "#004C60", bg = clrs.base03, gui = s.b },
 		CursorLineNr { CursorLine }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-		-- Overridden below in YADR section
-		-- MatchParen   { fg = clrs.red, bg = clrs.base01, gui = s.b }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+		MatchParen { fg = clrs.red, bg = clrs.base02, gui = s.b }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
 		ModeMsg { fg = clrs.blue }, -- 'showmode' message (e.g., "-- INSERT -- ")
 		-- MsgArea      { }, -- Area for messages and cmdline
-		-- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
+		MsgSeparator { fg = clrs.base01, bg = clrs.base02 }, -- Separator for scrolled messages, `msgsep` flag of 'display'
 		MoreMsg { fg = clrs.blue }, -- |more-prompt|
 		NonText { fg = clrs.base00, bg = s.none, gui = s.b }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
 		Normal { fg = clrs.base0, bg = p.back, gui = s.none }, -- normal text
-		NormalFloat { Normal }, -- Normal text in floating windows.
+		NormalFloat { Normal, bg = Normal.bg.darken(13) }, -- Normal text in floating windows; slightly darker than the buffer so popups separate from it.
+		FloatBorder { NormalFloat, fg = clrs.base01 }, -- border of floating windows
+		FloatTitle { NormalFloat, fg = clrs.blue, gui = s.b }, -- title of floating windows
+		FloatFooter { NormalFloat, fg = clrs.base01 }, -- footer of floating windows
 		NormalNC { Normal }, -- normal text in non-current windows
-		Pmenu { Normal, bg = Normal.bg.darken(13) }, -- Popup menu: normal item.
-		-- Pmenu { fg = clrs.base02, bg = clrs.base1, gui = p.revbb }, -- Popup menu: normal item.
+		Pmenu { NormalFloat }, -- Popup menu: normal item.
 		PmenuSel { fg = clrs.base01, bg = clrs.base2, gui = p.revbb }, -- Popup menu: selected item.
+		PmenuKind { Pmenu, fg = clrs.cyan }, -- Popup menu: kind column
+		PmenuKindSel { PmenuSel }, -- Popup menu: kind column, selected item
+		PmenuExtra { Pmenu, fg = clrs.base01 }, -- Popup menu: extra text (source, detail)
+		PmenuExtraSel { PmenuSel }, -- Popup menu: extra text, selected item
+		PmenuMatch { Pmenu, fg = clrs.blue, gui = s.b }, -- Popup menu: matched text
+		PmenuMatchSel { PmenuSel, gui = s.b }, -- Popup menu: matched text, selected item
 		PmenuSbar { fg = clrs.base2, bg = clrs.base0, gui = p.revbb }, -- Popup menu: scrollbar.
 		PmenuThumb { fg = clrs.base0, bg = clrs.base03, gui = p.revbb }, -- Popup menu: Thumb of the scrollbar.
 		Question { fg = clrs.cyan, gui = s.b }, -- |hit-enter| prompt and yes/no questions
-		-- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
+		QuickFixLine { bg = clrs.base02, gui = s.b }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
 		Search { fg = clrs.yellow, gui = s.s }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
+		Substitute { Search }, -- |:substitute| replacement text highlighting
 		SpecialKey { fg = clrs.base00, bg = clrs.base02, gui = s.b }, -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
 		SpellBad { sp = clrs.red, gui = s.c }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
 		SpellCap { sp = clrs.violet, gui = s.c }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
@@ -157,8 +165,20 @@ local theme = lush(function(injected_functions)
 		Visual { fg = clrs.base01, bg = clrs.base03, gui = p.revbb }, -- Visual mode selection
 		VisualNOS { bg = clrs.base02, gui = gui_combine { s.r, s.bb, s.s } }, -- Visual mode selection when vim is "Not Owning the Selection".
 		WarningMsg { fg = clrs.red, gui = s.b }, -- warning messages
-		-- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+		Whitespace { fg = clrs.base02 }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
 		WildMenu { fg = clrs.base2, bg = clrs.base02, gui = p.revbb }, -- current match in 'wildmenu' completion
+		WinBar { fg = clrs.base1, bg = p.back }, -- window bar of current window
+		WinBarNC { fg = clrs.base01, bg = p.back }, -- window bar of not-current windows
+		StatusLineTerm { StatusLine }, -- status line of current terminal window
+		StatusLineTermNC { StatusLineNC }, -- status line of not-current terminal windows
+		OkMsg { fg = clrs.green }, -- success messages
+		DiffTextAdd { DiffAdd }, -- added text within a changed line
+		Added { fg = clrs.green }, -- added line in a diff (0.10+); many plugins fall back to these three
+		Changed { fg = clrs.yellow }, -- changed line in a diff
+		Removed { fg = clrs.red }, -- removed line in a diff
+		debugPC { bg = clrs.base02 }, -- current line while debugging (nvim-dap DapStopped linehl)
+		debugBreakpoint { fg = clrs.red, bg = clrs.base02 }, -- breakpoint line
+		SnippetTabstop { bg = clrs.base02 }, -- tabstops in snippets
 
 		-- These groups are not listed as default vim groups,
 		-- but they are defacto standard group names for syntax highlighting.
@@ -222,16 +242,33 @@ local theme = lush(function(injected_functions)
 		DiagnosticWarn { fg = clrs.yellow }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
 		DiagnosticInfo { fg = clrs.cyan }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
 		DiagnosticHint { fg = clrs.green }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+		DiagnosticOk { fg = clrs.green }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
 
-		-- DiagnosticVirtualTextError           { }, -- Used for "Error" diagnostic virtual text
-		-- DiagnosticVirtualTextWarn            { }, -- Used for "Warning" diagnostic virtual text
-		-- DiagnosticVirtualTextInfo            { }, -- Used for "Information" diagnostic virtual text
-		-- DiagnosticVirtualTextHint            { }, -- Used for "Hint" diagnostic virtual text
+		-- Virtual text gets a faint tint of its own color so plugins that use these
+		-- groups as badges (snacks, noice, dap-virtual-text) read as pills.
+		DiagnosticVirtualTextError { fg = clrs.red, bg = clrs.red.darken(75) }, -- Used for "Error" diagnostic virtual text
+		DiagnosticVirtualTextWarn { fg = clrs.yellow, bg = clrs.yellow.darken(75) }, -- Used for "Warning" diagnostic virtual text
+		DiagnosticVirtualTextInfo { fg = clrs.cyan, bg = clrs.cyan.darken(75) }, -- Used for "Information" diagnostic virtual text
+		DiagnosticVirtualTextHint { fg = clrs.green, bg = clrs.green.darken(75) }, -- Used for "Hint" diagnostic virtual text
+		DiagnosticVirtualTextOk { fg = clrs.green, bg = clrs.green.darken(75) }, -- Used for "Ok" diagnostic virtual text
 
-		DiagnosticUnderlineError { fg = s.none, gui = s.u }, -- Used to underline "Error" diagnostics
-		DiagnosticUnderlineWarn { DiagnosticUnderlineError }, -- Used to underline "Warning" diagnostics
-		DiagnosticUnderlineInfo { DiagnosticUnderlineError }, -- Used to underline "Information" diagnostics
-		DiagnosticUnderlineHint { DiagnosticUnderlineError }, -- Used to underline "Hint" diagnostics
+		DiagnosticUnderlineError { sp = clrs.red, gui = s.c }, -- Used to underline "Error" diagnostics
+		DiagnosticUnderlineWarn { sp = clrs.yellow, gui = s.c }, -- Used to underline "Warning" diagnostics
+		DiagnosticUnderlineInfo { sp = clrs.cyan, gui = s.c }, -- Used to underline "Information" diagnostics
+		DiagnosticUnderlineHint { sp = clrs.green, gui = s.c }, -- Used to underline "Hint" diagnostics
+		DiagnosticUnderlineOk { sp = clrs.green, gui = s.c }, -- Used to underline "Ok" diagnostics
+
+		DiagnosticDeprecated { sp = clrs.red, gui = "strikethrough" }, -- deprecated code
+		-- DiagnosticUnnecessary links to Comment by default, which is fine here.
+
+		LspReferenceText { bg = clrs.base02 }, -- references under the cursor (document highlight)
+		LspReferenceRead { LspReferenceText }, -- read-access references
+		LspReferenceWrite { LspReferenceText, gui = s.u }, -- write-access references
+		LspReferenceTarget { LspReferenceText }, -- the reference the cursor is on
+		LspInlayHint { fg = clrs.base01, gui = s.i }, -- inlay hints
+		LspCodeLens { fg = clrs.base01, gui = s.i }, -- virtual text of code lenses
+		LspCodeLensSeparator { LspCodeLens }, -- separator between two or more code lenses
+		LspSignatureActiveParameter { fg = clrs.orange, gui = s.b }, -- active parameter in signature help
 
 		-- DiagnosticFloatingError              { }, -- Used to color "Error" diagnostic messages in diagnostics float
 		-- DiagnosticFloatingWarn               { }, -- Used to color "Warning" diagnostic messages in diagnostics float
@@ -392,8 +429,8 @@ local theme = lush(function(injected_functions)
 		-- Language Specific
 		-- ruby
 
-		qfLineNr = { fg = c.dark5 },
-		qfFileName = { fg = c.blue },
+		qfLineNr { LineNr },
+		qfFileName { Directory },
 
 		-- Ported overrides from YADR
 		-- txtBold { Identifier },
@@ -456,9 +493,9 @@ local theme = lush(function(injected_functions)
 
 		-- git and gitcommit
 		gitcommitComment { fg = clrs.base01, gui = s.i },
-		gicommitUntracked { gitcommitComment },
-		gicommitDiscarded { gitcommitComment },
-		gicommitSelected { gitcommitComment },
+		gitcommitUntracked { gitcommitComment },
+		gitcommitDiscarded { gitcommitComment },
+		gitcommitSelected { gitcommitComment },
 		gitcommitUnmerged { fg = clrs.green, gui = s.b },
 		gitcommitOnBranch { fg = clrs.base01, gui = s.b },
 		gitcommitBranch { fg = clrs.magenta, gui = s.b },
