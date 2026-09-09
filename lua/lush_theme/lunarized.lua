@@ -531,11 +531,200 @@ local theme = lush(function(injected_functions)
 		gitcommitSelectedArrow { gitcommitSelectedFile },
 		gitcommitUnmergedArrow { gitcommitUnmergedFile },
 
-		-- gitgutter
-		GitGutterAdd { fg = clrs.green },
-		GitGutterChange { fg = clrs.yellow },
-		GitGutterDelete { fg = clrs.red },
-		GitGutterChangeDelete { fg = clrs.red },
+		--
+		-- Plugins
+		--
+
+		-- gitsigns.nvim
+		-- The GitGutter* names stay as aliases: gitsigns and neo-tree probe them
+		-- as fallbacks before the GitSigns* names.
+		GitSignsAdd { fg = clrs.green },
+		GitSignsChange { fg = clrs.yellow },
+		GitSignsDelete { fg = clrs.red },
+		GitSignsChangedelete { GitSignsDelete },
+		GitSignsTopdelete { GitSignsDelete },
+		GitSignsUntracked { fg = clrs.cyan },
+		GitSignsCurrentLineBlame { fg = clrs.base01, gui = s.i },
+		-- word-diff regions default to TermCursor (reverse video); use tints instead
+		GitSignsAddInline { bg = clrs.green.darken(65) },
+		GitSignsChangeInline { bg = clrs.yellow.darken(65) },
+		GitSignsDeleteInline { bg = clrs.red.darken(65) },
+		GitGutterAdd { GitSignsAdd },
+		GitGutterChange { GitSignsChange },
+		GitGutterDelete { GitSignsDelete },
+		GitGutterChangeDelete { GitSignsChangedelete },
+
+		-- blink.cmp
+		BlinkCmpLabelMatch { fg = clrs.blue, gui = s.b },
+		BlinkCmpLabelDeprecated { fg = clrs.base0, gui = "strikethrough" },
+		BlinkCmpLabelDetail { fg = clrs.base01, gui = s.i },
+		BlinkCmpLabelDescription { BlinkCmpLabelDetail },
+		BlinkCmpSource { BlinkCmpLabelDetail },
+		BlinkCmpMenuBorder { Pmenu, fg = clrs.base01 },
+		BlinkCmpDocBorder { FloatBorder },
+		BlinkCmpSignatureHelpBorder { FloatBorder },
+
+		BlinkCmpKindField { Identifier },
+		BlinkCmpKindProperty { BlinkCmpKindField },
+		BlinkCmpKindEvent { BlinkCmpKindField },
+		BlinkCmpKindEnumMember { Identifier },
+
+		BlinkCmpKindText { Statement },
+		BlinkCmpKindEnum { Statement },
+		BlinkCmpKindKeyword { Statement },
+		BlinkCmpKindOperator { Statement },
+
+		BlinkCmpKindConstant { Constant },
+		BlinkCmpKindConstructor { Constant },
+		BlinkCmpKindReference { Constant },
+		BlinkCmpKindValue { Constant },
+
+		BlinkCmpKindStruct { Type },
+		BlinkCmpKindClass { Type },
+		BlinkCmpKindModule { Type },
+		BlinkCmpKindInterface { Type },
+		BlinkCmpKindTypeParameter { Type },
+
+		BlinkCmpKindUnit { Macro },
+		BlinkCmpKindSnippet { Macro },
+		BlinkCmpKindFolder { Macro },
+		BlinkCmpKindFile { Macro },
+
+		BlinkCmpKindVariable { Function },
+		BlinkCmpKindFunction { Function },
+		BlinkCmpKindMethod { Function },
+
+		BlinkCmpKindColor { Special },
+
+		-- snacks.nvim picker (ported from the old Telescope look)
+		SnacksPicker { NormalFloat },
+		SnacksPickerBorder { FloatBorder },
+		SnacksPickerTitle { NormalFloat, fg = clrs.base1, gui = s.b },
+		SnacksPickerFooter { FloatFooter },
+		SnacksPickerMatch { Title },
+
+		SnacksPickerInput { Normal, bg = Normal.bg.darken(2) },
+		SnacksPickerInputBorder { SnacksPickerInput, fg = clrs.base01 },
+		SnacksPickerInputTitle { SnacksPickerInput, fg = clrs.blue, gui = s.i },
+		SnacksPickerInputFooter { SnacksPickerInputBorder },
+		SnacksPickerPrompt { Statement, bg = SnacksPickerInput.bg },
+
+		SnacksPickerList { SnacksPicker },
+		SnacksPickerListBorder { SnacksPickerBorder },
+		SnacksPickerListTitle { SnacksPickerTitle },
+		SnacksPickerListCursorLine { bg = clrs.base02 }, -- defaults to Visual (reverse video)
+
+		SnacksPickerPreview { SnacksPicker },
+		SnacksPickerPreviewBorder { SnacksPickerBorder },
+		SnacksPickerPreviewTitle { SnacksPicker, fg = clrs.cyan, gui = s.i },
+		SnacksPickerPreviewCursorLine { CursorLine },
+
+		SnacksPickerBox { SnacksPicker },
+		SnacksPickerBoxBorder { SnacksPickerBorder },
+		SnacksPickerBoxTitle { SnacksPickerTitle },
+
+		-- snacks.nvim indent guides (defaults are bold NonText and a red scope line)
+		SnacksIndent { fg = clrs.base02 },
+		SnacksIndentScope { fg = clrs.base01 },
+		SnacksIndentChunk { SnacksIndentScope },
+
+		-- snacks.nvim gh picker (defaults are GitHub's web palette)
+		SnacksGhGreen { fg = clrs.green },
+		SnacksGhPurple { fg = clrs.violet },
+		SnacksGhGray { fg = clrs.base01 },
+		SnacksGhRed { fg = clrs.red },
+
+		-- flash.nvim
+		FlashLabel { fg = clrs.base03, bg = clrs.magenta, gui = s.b },
+
+		-- neo-tree.nvim (overrides its hardcoded grays and oranges)
+		NeoTreeDotfile { fg = clrs.base01 },
+		NeoTreeHiddenByName { NeoTreeDotfile },
+		NeoTreeWindowsHidden { NeoTreeDotfile },
+		NeoTreeGitIgnored { NeoTreeDotfile },
+		NeoTreeGitConflict { fg = clrs.orange, gui = s.b },
+		NeoTreeGitUnstaged { NeoTreeGitConflict },
+		NeoTreeGitUntracked { fg = clrs.cyan, gui = s.i },
+		NeoTreeModified { fg = clrs.yellow },
+		NeoTreeRootName { fg = clrs.blue, gui = s.b },
+		NeoTreeFloatTitle { FloatTitle },
+		NeoTreeTitleBar { fg = clrs.base03, bg = clrs.blue },
+		NeoTreeTabActive { fg = clrs.base1, bg = p.back, gui = s.b },
+		NeoTreeTabInactive { fg = clrs.base01, bg = clrs.base02 },
+		NeoTreeTabSeparatorActive { fg = clrs.base02, bg = p.back },
+		NeoTreeTabSeparatorInactive { fg = clrs.base03, bg = clrs.base02 },
+
+		-- mason.nvim (every default is hardcoded gold and teal)
+		MasonBackdrop { bg = clrs.base03 },
+		MasonHeader { fg = clrs.base03, bg = clrs.yellow, gui = s.b },
+		MasonHeaderSecondary { fg = clrs.base03, bg = clrs.cyan, gui = s.b },
+		MasonHighlight { fg = clrs.cyan },
+		MasonHighlightBlock { fg = clrs.base03, bg = clrs.cyan },
+		MasonHighlightBlockBold { MasonHighlightBlock, gui = s.b },
+		MasonHighlightSecondary { fg = clrs.yellow },
+		MasonHighlightBlockSecondary { fg = clrs.base03, bg = clrs.yellow },
+		MasonHighlightBlockBoldSecondary { MasonHighlightBlockSecondary, gui = s.b },
+		MasonMuted { fg = clrs.base01 },
+		MasonMutedBlock { fg = clrs.base03, bg = clrs.base01 },
+		MasonMutedBlockBold { MasonMutedBlock, gui = s.b },
+
+		-- neotest (every default is hardcoded)
+		NeotestPassed { fg = clrs.green },
+		NeotestFailed { fg = clrs.red },
+		NeotestRunning { fg = clrs.yellow },
+		NeotestWatching { fg = clrs.yellow },
+		NeotestSkipped { fg = clrs.base01 },
+		NeotestNamespace { fg = clrs.magenta },
+		NeotestFile { fg = clrs.cyan },
+		NeotestDir { fg = clrs.blue },
+		NeotestIndent { fg = clrs.base01 },
+		NeotestExpandMarker { fg = clrs.base01 },
+		NeotestAdapterName { fg = clrs.violet, gui = s.b },
+		NeotestWinSelect { fg = clrs.cyan, gui = s.b },
+		NeotestMarked { fg = clrs.orange, gui = s.b },
+		NeotestTarget { fg = clrs.red },
+
+		-- mini.icons (which-key's icon colors follow these)
+		MiniIconsAzure { fg = clrs.blue },
+		MiniIconsBlue { fg = clrs.blue },
+		MiniIconsCyan { fg = clrs.cyan },
+		MiniIconsGreen { fg = clrs.green },
+		MiniIconsGrey { fg = clrs.base01 },
+		MiniIconsOrange { fg = clrs.orange },
+		MiniIconsPurple { fg = clrs.violet },
+		MiniIconsRed { fg = clrs.red },
+		MiniIconsYellow { fg = clrs.yellow },
+
+		-- Groups other plugins default to Visual (reverse video here)
+		TroublePreview { bg = clrs.base02 },
+		DapStoppedLine { debugPC },
+		GrugFarVisualBufrange { bg = clrs.base02 },
+		LazyButtonActive { fg = clrs.base03, bg = clrs.blue },
+
+		-- grug-far.nvim (indicator defaults are GitHub-light hex)
+		GrugFarResultsAddIndicator { fg = clrs.green },
+		GrugFarResultsChangeIndicator { fg = clrs.yellow },
+		GrugFarResultsRemoveIndicator { fg = clrs.red },
+
+		-- fff.nvim (git status defaults are Tailwind hex)
+		FFFGitStaged { fg = clrs.green },
+		FFFGitModified { fg = clrs.yellow },
+		FFFGitDeleted { fg = clrs.red },
+		FFFGitRenamed { fg = clrs.violet },
+		FFFGitUntracked { fg = clrs.cyan },
+		FFFGitIgnored { fg = clrs.base01 },
+		FFFGitSignStaged { FFFGitStaged },
+		FFFGitSignModified { FFFGitModified },
+		FFFGitSignDeleted { FFFGitDeleted },
+		FFFGitSignRenamed { FFFGitRenamed },
+		FFFGitSignUntracked { FFFGitUntracked },
+		FFFGitSignIgnored { FFFGitIgnored },
+
+		-- claudecode.nvim (inline diff defaults are One Dark hex)
+		ClaudeCodeInlineDiffAdd { bg = clrs.green.darken(75) },
+		ClaudeCodeInlineDiffDelete { bg = clrs.red.darken(75), gui = "strikethrough" },
+		ClaudeCodeInlineDiffAddSign { fg = clrs.green },
+		ClaudeCodeInlineDiffDeleteSign { fg = clrs.red },
 	}
 end)
 
