@@ -449,7 +449,6 @@ local theme = lush(function(injected_functions)
 		-- everything play together just a little more nicely.
 		--
 		-- VertSplit { fg = "#003745" },
-		EasyMotionTarget { fg = "#4CE660", gui = s.b },
 
 		-- diff highlighting
 		diffAdded { Statement },
@@ -481,89 +480,6 @@ local theme = lush(function(injected_functions)
 		GitGutterChange { fg = clrs.yellow },
 		GitGutterDelete { fg = clrs.red },
 		GitGutterChangeDelete { fg = clrs.red },
-
-		--
-		-- octo
-		OctoGreen { fg = clrs.green },
-		OctoRed { fg = clrs.red },
-		OctoPurple { fg = clrs.violet },
-		OctoYellow { fg = clrs.yellow },
-		OctoBlue { fg = clrs.blue },
-		OctoGrey { fg = clrs.base0 },
-
-		OctoBubbleGreen { fg = clrs.green, bg = clrs.green.darken(75) },
-		OctoBubbleRed { fg = clrs.red, bg = clrs.red.darken(80) },
-		OctoBubblePurple { fg = clrs.base2, bg = clrs.violet },
-		OctoBubbleYellow { fg = clrs.yellow, bg = clrs.yellow.darken(75) },
-		OctoBubbleBlue { fg = clrs.blue, bg = clrs.blue.darken(75) },
-
-		-- Bubble delimiters are hiding here
-		OctoBubbleDelimiterGreen { fg = OctoBubbleGreen.bg },
-		OctoBubbleDelimiterRed { fg = OctoBubbleRed.bg },
-		OctoBubbleDelimiterYellow { fg = OctoBubbleYellow.bg },
-		OctoBubbleDelimiterBlue { fg = OctoBubbleBlue.bg },
-
-		OctoFilePanelTitle { fg = Directory.fg, gui = s.b },
-		OctoFilePanelCounter { fg = Identifier.fg, gui = s.b },
-		OctoNormalFront { fg = Normal.fg },
-		OctoViewer { fg = clrs.base03, bg = clrs.blue },
-
-		-- Telescope
-		TelescopeNormal { Normal, bg = Normal.bg.darken(13) },
-		TelescopeBorder { TelescopeNormal, fg = clrs.base01 },
-		TelescopeMatching { Title },
-		TelescopeTitle { Normal, gui = "bold" },
-
-		TelescopePreviewTitle { fg = clrs.cyan, bg = TelescopeNormal.bg, gui = s.i },
-
-		TelescopePromptNormal { Normal, bg = Normal.bg.darken(2) },
-		TelescopePromptPrefix { Statement, bg = TelescopePromptNormal.bg },
-		TelescopePromptBorder { fg = s.none, bg = TelescopePromptNormal.bg },
-		TelescopePromptTitle { fg = clrs.blue, bg = TelescopePromptNormal.bg, gui = s.i },
-
-		TelescopeSelection { Visual, bg = TelescopeNormal.bg },
-		TelescopeSelectionCaret { TelescopeSelection, fg = clrs.base1 },
-		-- TelescopeResultsTitle { },
-
-		-- TelescopeMultiSelection {},
-
-		CmpItemAbbr { fg = clrs.base1, bg = s.none },
-		CmpItemAbbrDeprecated { fg = clrs.base0, bg = s.none, strikethrough = true },
-		CmpItemAbbrMatch { fg = clrs.blue, bg = s.none, bold = true },
-		CmpItemAbbrMatchFuzzy { CmpItemAbbrMatch },
-		CmpItemMenu { fg = clrs.base1, bg = s.none, italic = true },
-
-		CmpItemKindField { Identifier },
-		CmpItemKindProperty { CmpItemKindField },
-		CmpItemKindEvent { CmpItemKindField },
-		CmpItemKindEnumMember { Identifier },
-
-		CmpItemKindText { Statement },
-		CmpItemKindEnum { Statement },
-		CmpItemKindKeyword { Statement },
-		CmpItemKindOperator { Statement },
-
-		CmpItemKindConstant { Constant },
-		CmpItemKindConstructor { Constant },
-		CmpItemKindReference { Constant },
-		CmpItemKindValue { Constant },
-
-		CmpItemKindStruct { Type },
-		CmpItemKindClass { Type },
-		CmpItemKindModule { Type },
-		CmpItemKindInterface { Type },
-		CmpItemKindTypeParameter { Type },
-
-		CmpItemKindUnit { Macro },
-		CmpItemKindSnippet { Macro },
-		CmpItemKindFolder { Macro },
-		CmpItemKindFile { Macro },
-
-		CmpItemKindVariable { Function },
-		CmpItemKindFunction { Function },
-		CmpItemKindMethod { Function },
-
-		CmpItemKindColor { Special },
 	}
 end)
 
