@@ -290,6 +290,7 @@ local theme = lush(function(injected_functions)
 		sym("@variable") { Identifier }, -- various variable names
 		sym("@variable.builtin") { Special }, -- built-in variable names (e.g. `this`)
 		sym("@variable.parameter") { sym("@variable") }, -- parameters of a function, use a conspicuous color (VSCode uses the common light_blue)
+		sym("@variable.parameter.builtin") { Special }, -- special parameters (e.g. `_`, `it`)
 		sym("@variable.member") { sym("@variable") }, -- object and struct fields
 
 		sym("@constant") { Constant }, -- constant identifiers
@@ -321,9 +322,9 @@ local theme = lush(function(injected_functions)
 		sym("@type") { Structure }, -- type or class definitions and annotations
 		sym("@type.builtin") { Special }, -- built-in types
 		sym("@type.definition") { Typedef }, -- identifiers in type definitions (e.g. `typedef <type> <identifier>` in C)
-		sym("@type.qualifier") { Special }, -- type qualifiers (e.g. `const`)
 
 		sym("@attribute") { Identifier }, -- attribute annotations (e.g. Python decorators)
+		sym("@attribute.builtin") { Special }, -- builtin annotations (e.g. `@property` in Python)
 		sym("@property") { Identifier }, -- the key in key/value pairs
 
 		-- Function
@@ -344,7 +345,8 @@ local theme = lush(function(injected_functions)
 		sym("@keyword.function") { sym("@keyword") }, -- keywords that define a function (e.g. `func` in Go, `def` in Python)
 		sym("@keyword.operator") { Operator }, -- operators that are English words (e.g. `and` / `or`)
 		sym("@keyword.import") { Include }, -- keywords for including modules (e.g. `import` / `from` in Python)
-		sym("@keyword.storage") { StorageClass }, -- modifiers that affect storage in memory or life-time
+		sym("@keyword.modifier") { StorageClass }, -- keywords modifying other constructs (e.g. `const`, `static`, `public`)
+		sym("@keyword.type") { Keyword }, -- keywords describing composite types (e.g. `struct`, `enum`)
 		sym("@keyword.repeat") { Repeat }, -- keywords related to loops (e.g. `for` / `while`)
 		sym("@keyword.return") { Keyword }, --  keywords like `return` and `yield`
 		sym("@keyword.debug") { Debug }, -- keywords related to debugging
@@ -367,8 +369,7 @@ local theme = lush(function(injected_functions)
 
 		sym("@comment.error") { ErrorMsg }, -- error-type comments (e.g., `DEPRECATED:`)
 		sym("@comment.warning") { DiagnosticWarn }, -- warning-type comments (e.g., `WARNING:`, `FIX:`)
-		sym("@comment.hint") { DiagnosticHint }, -- note-type comments (e.g., `NOTE:`)
-		sym("@comment.info") { DiagnosticInfo }, -- info-type comments
+		sym("@comment.note") { DiagnosticHint }, -- note-type comments (e.g., `NOTE:`, `INFO:`)
 		sym("@comment.todo") { Todo }, -- todo-type comments (e.g-, `TODO:`, `WIP:`)
 
 		-- Markup
@@ -378,10 +379,15 @@ local theme = lush(function(injected_functions)
 		sym("@markup.underline") { Underlined }, -- underlined text (only for literal underline markup!)
 
 		sym("@markup.heading") { Title }, -- headings, titles (including markers)
+		sym("@markup.heading.1") { fg = clrs.orange, gui = s.b }, -- top-level heading
+		sym("@markup.heading.2") { fg = clrs.yellow, gui = s.b }, -- section heading
+		sym("@markup.heading.3") { fg = clrs.green, gui = s.b }, -- subsection heading
+		sym("@markup.heading.4") { fg = clrs.cyan, gui = s.b }, -- and so on
+		sym("@markup.heading.5") { fg = clrs.blue, gui = s.b }, -- and so forth
+		sym("@markup.heading.6") { fg = clrs.violet, gui = s.b }, -- six levels ought to be enough for anybody
 
 		sym("@markup.quote") { Constant }, -- block quotes
 		sym("@markup.math") { Special }, -- math environments (e.g. `$ ... $` in LaTeX)
-		sym("@markup.environment") { Macro }, -- environments (e.g. in LaTeX)
 
 		sym("@markup.link") { PreProc }, -- text references, footnotes, citations, etc.
 		sym("@markup.link.label") { sym("@markup.link") }, -- non-url links
@@ -391,14 +397,15 @@ local theme = lush(function(injected_functions)
 		sym("@markup.raw.block") { sym("@markup.raw") }, -- literal or verbatim text as a stand-alone block
 
 		sym("@markup.list") { SpecialChar }, -- list markers
-		-- sym("@markup.list.checked") { }, -- checked todo-style list markers
-		-- sym("@markup.list.unchecked") { }, -- unchecked todo-style list markers
+		sym("@markup.list.checked") { fg = clrs.green }, -- checked todo-style list markers
+		sym("@markup.list.unchecked") { fg = clrs.base01 }, -- unchecked todo-style list markers
 
 		sym("@diff.plus") { DiffAdd }, -- added text (for diff files)
 		sym("@diff.minus") { DiffDelete }, -- deleted text (for diff files)
 		sym("@diff.delta") { DiffChange },
 
 		sym("@tag") { Tag }, -- XML tag names
+		sym("@tag.builtin") { Special }, -- builtin tag names (e.g. HTML5 tags)
 		sym("@tag.attribute") { Identifier }, -- XML tag attributes
 		sym("@tag.delimiter") { Delimiter }, -- XML tag delimiters
 
@@ -425,6 +432,18 @@ local theme = lush(function(injected_functions)
 		sym("@lsp.type.type") { sym("@type") },
 		sym("@lsp.type.typeParameter") { sym("@type.definition") },
 		sym("@lsp.type.variable") { sym("@variable") },
+		sym("@lsp.type.event") { Identifier },
+		sym("@lsp.type.keyword") { sym("@keyword") },
+		sym("@lsp.type.modifier") { sym("@keyword.modifier") },
+		sym("@lsp.type.number") { sym("@number") },
+		sym("@lsp.type.operator") { sym("@operator") },
+		sym("@lsp.type.regexp") { sym("@string.regexp") },
+		sym("@lsp.type.string") { sym("@string") },
+
+		-- Modifiers apply on top of the type; only the ones that add information
+		-- beyond what treesitter already conveys.
+		sym("@lsp.mod.deprecated") { gui = "strikethrough" },
+		sym("@lsp.mod.readonly") { Constant },
 
 		-- Language Specific
 		-- ruby
