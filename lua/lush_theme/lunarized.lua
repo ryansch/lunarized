@@ -307,7 +307,7 @@ local theme = lush(function(injected_functions)
 		sym("@string.regexp") { SpecialChar }, -- regular expressions
 		sym("@string.escape") { Character }, -- escape sequences
 		sym("@string.special") { Character }, -- other special strings (e.g. dates)
-		sym("@string.special.symbol") { sym("@string.special") }, -- symbols or atoms
+		sym("@string.special.symbol") { fg = clrs.violet }, -- symbols or atoms; violet so they read apart from strings (cyan) and identifiers (blue)
 		sym("@string.special.url") { sym("@string.special") }, -- URIs (e.g. hyperlinks), it's url outside markup
 		sym("@string.special.path") { sym("@string.special") }, -- filenames
 
