@@ -125,7 +125,8 @@ local theme = lush(function(injected_functions)
 		CurSearch { fg = clrs.base03, bg = clrs.orange }, -- current match for the last search pattern
 		LineNr { fg = "#004C60", bg = clrs.base03, gui = s.b },
 		CursorLineNr { CursorLine }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-		MatchParen { fg = clrs.red, bg = clrs.base02, gui = s.b }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+		-- Brackets are already red and CursorLine is already base02, so the match needs a base01 block behind it (the original Solarized value).
+		MatchParen { fg = clrs.red, bg = clrs.base01, gui = s.b }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
 		ModeMsg { fg = clrs.blue }, -- 'showmode' message (e.g., "-- INSERT -- ")
 		-- MsgArea      { }, -- Area for messages and cmdline
 		MsgSeparator { fg = clrs.base01, bg = clrs.base02 }, -- Separator for scrolled messages, `msgsep` flag of 'display'
