@@ -178,7 +178,7 @@ local theme = lush(function(injected_functions)
 		Removed { fg = clrs.red }, -- removed line in a diff
 		debugPC { bg = clrs.base02 }, -- current line while debugging (nvim-dap DapStopped linehl)
 		debugBreakpoint { fg = clrs.red, bg = clrs.base02 }, -- breakpoint line
-		SnippetTabstop { bg = clrs.base02 }, -- tabstops in snippets
+		SnippetTabstop { bg = clrs.base01.darken(35) }, -- tabstops in snippets; same lift as LspReferenceText since they sit on the cursor line
 
 		-- These groups are not listed as default vim groups,
 		-- but they are defacto standard group names for syntax highlighting.
@@ -261,7 +261,8 @@ local theme = lush(function(injected_functions)
 		DiagnosticDeprecated { sp = clrs.red, gui = "strikethrough" }, -- deprecated code
 		-- DiagnosticUnnecessary links to Comment by default, which is fine here.
 
-		LspReferenceText { bg = clrs.base02 }, -- references under the cursor (document highlight)
+		-- Two steps above CursorLine (base02) so the highlight survives on the cursor's own row.
+		LspReferenceText { bg = clrs.base01.darken(35) }, -- references under the cursor (document highlight)
 		LspReferenceRead { LspReferenceText }, -- read-access references
 		LspReferenceWrite { LspReferenceText, gui = s.u }, -- write-access references
 		LspReferenceTarget { LspReferenceText }, -- the reference the cursor is on
